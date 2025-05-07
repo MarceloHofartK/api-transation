@@ -1,10 +1,10 @@
-package com.marcelohofart.api_lancamentos;
+package com.marcelohofart.bank_api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ApiLancamentosApplicationTests {
+class BankApiApplicationTests {
 
 	@Test
 	void contextLoads() {
