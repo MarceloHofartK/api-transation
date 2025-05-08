@@ -14,16 +14,18 @@ public class Transfer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-
+    @Column(nullable = false)
     private BigDecimal amount;
 
+    @Column(nullable = false)
     private LocalDateTime date = LocalDateTime.now();
 
     @ManyToOne
-    @JoinColumn(name = "origin_account_id")
+    @JoinColumn(name = "origin_account_id", nullable = false)
     private Account originAccount;
 
     @ManyToOne
-    @JoinColumn(name = "destination_account_id")
+    @JoinColumn(name = "destination_account_id", nullable = false)
     private Account destinationAccount;
+
 }

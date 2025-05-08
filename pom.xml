@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.marcelohofart</groupId>
-	<artifactId>api-lancamentos</artifactId>
+	<artifactId>bank-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>api-lancamentos</name>
+	<name>bank-api</name>
 	<description>Desafio 6728457 - API de Lançamento de pagamento</description>
 	<url/>
 	<licenses>
@@ -52,6 +52,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.5.0</version>
 		</dependency>
 	</dependencies>
 

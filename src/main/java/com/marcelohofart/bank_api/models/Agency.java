@@ -12,12 +12,13 @@ public class Agency implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-
+    @Column(nullable = false)
     private String number;
+    @Column(nullable = false)
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "bank_id")
+    @JoinColumn(name = "bank_id", nullable = false)
     private Bank bank;
 
     @OneToMany(mappedBy = "agency")

@@ -18,16 +18,18 @@ public class Account implements Serializable {
     @Column(unique = true)
     private String number;
 
+    @Column(nullable = false)
     private String type;
 
+    @Column(nullable = false)
     private BigDecimal balance = BigDecimal.ZERO;
 
     @ManyToOne
-    @JoinColumn(name = "client_id")
+    @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
     @ManyToOne
-    @JoinColumn(name = "agency_id")
+    @JoinColumn(name = "agency_id", nullable = false)
     private Agency agency;
 
     @OneToMany(mappedBy = "originAccount")
@@ -35,4 +37,8 @@ public class Account implements Serializable {
 
     @OneToMany(mappedBy = "destinationAccount")
     private List<Transfer> receivedTransfers;
+
+    public BigDecimal getBalance(){
+        return this.balance;
+    }
 }

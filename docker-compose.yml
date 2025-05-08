@@ -9,18 +9,15 @@ services:
       - "5432:5432"
     volumes:
       - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
-  api:
+  app:
     build: .
     container_name: bank_api
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/bank_api
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 1234
     depends_on:
       - db
-    environment:
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_USER: postgres
-      DB_PASSWORD: 1234
-      DB_NAME: bank_api
-
     ports:
       - "8080:8080"
 
