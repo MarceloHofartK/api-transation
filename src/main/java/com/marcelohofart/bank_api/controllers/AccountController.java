@@ -54,9 +54,9 @@ public class AccountController {
     @PostMapping("/accounts/{accountId}/transactions")
     public ResponseEntity<String> createTransactionsInAccount(
             @Parameter(description = "Identificador da conta que realizará as transações", example = "f81d4fae-7dec-11d0-a765-00a0c91e6bf6")
-            @Valid @PathVariable UUID accountId,
+            @PathVariable UUID accountId,
             @Parameter(description = "Lista de transações a serem realizadas")
-            @Valid @RequestBody List<TransactionRequest> transactionRequestList
+            @RequestBody List<TransactionRequest> transactionRequestList
     ) {
         transactionService.processTransactions(accountId, transactionRequestList);
         return ResponseEntity.status(HttpStatus.CREATED).body("Transações realizadas com sucesso!");
@@ -74,7 +74,7 @@ public class AccountController {
     @PostMapping("/accounts/transfer")
     public ResponseEntity<String> transferBetweenAccounts(
             @Parameter(description = "Transferência que será feita entre as contas")
-            @Valid @RequestBody TransferRequest transferRequest
+            @RequestBody TransferRequest transferRequest
     ) {
         transferService.processTransferBetweenAccounts(transferRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body("Transferência realizada com sucesso!");

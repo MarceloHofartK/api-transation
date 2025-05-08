@@ -1,6 +1,7 @@
 package com.marcelohofart.bank_api.services;
 
 import com.marcelohofart.bank_api.enums.TransactionType;
+import com.marcelohofart.bank_api.exceptions.AccountNotFoundException;
 import com.marcelohofart.bank_api.models.Account;
 import com.marcelohofart.bank_api.models.Transaction;
 import com.marcelohofart.bank_api.models.Transfer;
@@ -30,12 +31,13 @@ public class TransferService {
         if(transferRequest.toAccountId == transferRequest.fromAccountId){ // se está tentando mandar dinheiro pra mesma conta
             return;
         }
+        transferRequest.validate(); // serve para validar a transferencia, caso um dado esteja errado gera exception
 
         Account fromAccount = accountRepository.findByIdWithLock(transferRequest.fromAccountId)
-                .orElseThrow(() -> new EntityNotFoundException("Conta de origem não encontrada"));
+                .orElseThrow(() -> new AccountNotFoundException("Conta de origem não encontrada"));
 
         Account toAccount = accountRepository.findByIdWithLock(transferRequest.toAccountId)
-                .orElseThrow(() -> new EntityNotFoundException("Conta de destino não encontrada"));
+                .orElseThrow(() -> new AccountNotFoundException("Conta de destino não encontrada"));
 
         fromAccount.applyTransaction(TransactionType.DEBIT, transferRequest.amount); // retiro dinheiro da conta da pessoa q está enviando
         toAccount.applyTransaction(TransactionType.CREDIT, transferRequest.amount); // adiciono dinheiro da conta da pessoa q está recebendo

@@ -1,6 +1,7 @@
 package com.marcelohofart.bank_api.models;
 
 import com.marcelohofart.bank_api.enums.TransactionType;
+import com.marcelohofart.bank_api.exceptions.InsufficientBalanceException;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -56,8 +57,8 @@ public class Account implements Serializable {
     }
 
     public void applyTransaction(TransactionType transactionType, BigDecimal amount){
-        if(transactionType == TransactionType.DEBIT && balance.compareTo(amount) <= 0){
-            throw new IllegalArgumentException("Saldo insuficiente na conta para realizar a transação.");
+        if(transactionType == TransactionType.DEBIT && balance.compareTo(amount) < 0){
+            throw new InsufficientBalanceException();
         }
 
         if(transactionType == TransactionType.DEBIT) {
