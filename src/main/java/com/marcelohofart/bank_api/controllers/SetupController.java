@@ -1,6 +1,5 @@
 package com.marcelohofart.bank_api.controllers;
 
-import com.marcelohofart.bank_api.dtos.AccountDto;
 import com.marcelohofart.bank_api.models.Account;
 import com.marcelohofart.bank_api.models.Agency;
 import com.marcelohofart.bank_api.models.Bank;
@@ -9,21 +8,24 @@ import com.marcelohofart.bank_api.repositories.AccountRepository;
 import com.marcelohofart.bank_api.repositories.AgencyRepository;
 import com.marcelohofart.bank_api.repositories.BankRepository;
 import com.marcelohofart.bank_api.repositories.ClientRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 
 @RestController
 @Profile("dev")
-public class DebugController {
+@Tag(name = "Setup", description = "Adiciona os dados necessários no banco de dados (Apenas para perfil de Desenvolvedor)")
+public class SetupController {
 
     // injetei os repositórios direto no controller
     // apenas para fins de teste, para permitir que quem estiver avaliando a aplicação consiga
@@ -37,6 +39,18 @@ public class DebugController {
     @Autowired
     private AccountRepository accountRepository;
 
+    @Operation(
+            summary = "Popular banco de dados com dados iniciais para testes",
+            description = """
+                Cria registros de exemplo para bancos, agências, clientes e contas. \
+                Este endpoint deve ser usado apenas em ambiente de desenvolvimento \
+                (requer o perfil 'dev' ativo: `spring.profiles.active=dev`).
+                """
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Dados adicionados com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Os dados já foram criados anteriormente")
+    })
     @PostMapping("/setup-application")
     public ResponseEntity<String> setupAplicationDebug(){
         if (bankRepository.count() == 0) {
