@@ -8,6 +8,11 @@ import java.util.UUID;
 @Entity
 @Table(name = "Banks")
 public class Bank implements Serializable {
+    protected Bank() {
+    }
+    public Bank(String name) {
+        this.name = name;
+    }
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -19,4 +24,5 @@ public class Bank implements Serializable {
 
     @OneToMany(mappedBy = "bank")
     private List<Agency> agencies;
+
 }

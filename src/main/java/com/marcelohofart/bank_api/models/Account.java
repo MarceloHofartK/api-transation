@@ -9,6 +9,14 @@ import java.util.UUID;
 @Entity
 @Table(name = "Accounts")
 public class Account implements Serializable {
+    protected Account() {
+    }
+    public Account(String number, BigDecimal initialBalance, Client client, Agency agency) {
+        this.number = number;
+        this.balance = initialBalance;
+        this.client = client;
+        this.agency = agency;
+    }
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -17,9 +25,6 @@ public class Account implements Serializable {
 
     @Column(unique = true)
     private String number;
-
-    @Column(nullable = false)
-    private String type;
 
     @Column(nullable = false)
     private BigDecimal balance = BigDecimal.ZERO;
@@ -40,5 +45,11 @@ public class Account implements Serializable {
 
     public BigDecimal getBalance(){
         return this.balance;
+    }
+    public UUID getId(){
+        return this.id;
+    }
+    public String getNumber(){
+        return this.number;
     }
 }

@@ -7,6 +7,13 @@ import java.util.UUID;
 @Entity
 @Table(name = "Agencies")
 public class Agency implements Serializable {
+    protected Agency() {
+    }
+    public Agency(String name, String number, Bank bank) {
+        this.name = name;
+        this.number = number;
+        this.bank = bank;
+    }
     private static final long serialVersionUID = 1L;
 
     @Id

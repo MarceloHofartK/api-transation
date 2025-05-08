@@ -9,7 +9,7 @@ public class BankApiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BankApiApplication.class, args);
 
-		System.out.println("Swagger -> https://localhost:8080/swagger-ui.html");
+		System.out.println("Swagger -> http://localhost:8080/swagger-ui.html");
 	}
 
 }
