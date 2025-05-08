@@ -8,6 +8,7 @@ import com.marcelohofart.bank_api.models.Client;
 import com.marcelohofart.bank_api.requests.TransactionRequest;
 import com.marcelohofart.bank_api.requests.TransferRequest;
 import com.marcelohofart.bank_api.services.AccountService;
+import com.marcelohofart.bank_api.services.TransactionService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,19 +29,15 @@ import java.util.UUID;
 public class AccountController {
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private TransactionService transactionService;
     @PostMapping("/accounts/{accountId}/transactions")
     public ResponseEntity<String> createTransactionsInAccount(
             @Valid @PathVariable UUID accountId,
-            @Valid @RequestBody TransactionRequest transactionRequest
+            @Valid @RequestBody List<TransactionRequest> transactionRequestList
     ) {
-        try {
-            // Lógica para processar as transações usando o accountId e transactionRequest
-
-
-            return ResponseEntity.status(HttpStatus.CREATED).body("Transactions successfully processed.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while processing transactions.");
-        }
+        transactionService.processTransactions(accountId, transactionRequestList);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Transações realizadas com sucesso!.");
     }
 
     @PostMapping("/accounts/transfer")

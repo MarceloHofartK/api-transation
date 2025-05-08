@@ -1,5 +1,6 @@
 package com.marcelohofart.bank_api.models;
 
+import com.marcelohofart.bank_api.enums.TransactionType;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -43,13 +44,26 @@ public class Account implements Serializable {
     @OneToMany(mappedBy = "destinationAccount")
     private List<Transfer> receivedTransfers;
 
-    public BigDecimal getBalance(){
-        return this.balance;
-    }
     public UUID getId(){
         return this.id;
     }
     public String getNumber(){
         return this.number;
+    }
+
+    public BigDecimal getBalance(){
+        return this.balance;
+    }
+
+    public void applyTransaction(TransactionType transactionType, BigDecimal amount){
+        if(transactionType == TransactionType.DEBIT && balance.compareTo(amount) < 0){
+            throw new IllegalArgumentException("Saldo insuficiente na conta para realizar a transação.");
+        }
+
+        if(transactionType == TransactionType.DEBIT) {
+            balance = balance.subtract(amount);
+        } else if (transactionType == TransactionType.CREDIT) {
+            balance = balance.add(amount);
+        }
     }
 }
