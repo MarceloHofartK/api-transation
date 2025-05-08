@@ -56,7 +56,7 @@ public class Account implements Serializable {
     }
 
     public void applyTransaction(TransactionType transactionType, BigDecimal amount){
-        if(transactionType == TransactionType.DEBIT && balance.compareTo(amount) < 0){
+        if(transactionType == TransactionType.DEBIT && balance.compareTo(amount) <= 0){
             throw new IllegalArgumentException("Saldo insuficiente na conta para realizar a transação.");
         }
 

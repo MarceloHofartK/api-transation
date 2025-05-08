@@ -9,6 +9,7 @@ import com.marcelohofart.bank_api.requests.TransactionRequest;
 import com.marcelohofart.bank_api.requests.TransferRequest;
 import com.marcelohofart.bank_api.services.AccountService;
 import com.marcelohofart.bank_api.services.TransactionService;
+import com.marcelohofart.bank_api.services.TransferService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -31,6 +33,8 @@ public class AccountController {
     private AccountService accountService;
     @Autowired
     private TransactionService transactionService;
+    @Autowired
+    private TransferService transferService;
     @PostMapping("/accounts/{accountId}/transactions")
     public ResponseEntity<String> createTransactionsInAccount(
             @Valid @PathVariable UUID accountId,
@@ -44,15 +48,10 @@ public class AccountController {
     public ResponseEntity<String> transferBetweenAccounts(
             @Valid @RequestBody TransferRequest transferRequest
     ) {
-        try {
-            // Lógica para processar as transações usando o accountId e transactionRequest
-
-
-            return ResponseEntity.status(HttpStatus.CREATED).body("Transactions successfully processed.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while processing transactions.");
-        }
+        transferService.processTransferBetweenAccounts(transferRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Transferência realizada com sucesso!.");
     }
+
     @GetMapping("/accounts")
     public ResponseEntity<Page<AccountDto>> getAllAccounts(
             @RequestParam(defaultValue = "0") int page,
@@ -74,15 +73,14 @@ public class AccountController {
     }
 
     @GetMapping("/accounts/{accountId}")
-    public ResponseEntity<String> getAccountDetails(
+    public ResponseEntity<Optional<AccountDto>> getAccountDetails(
             @Valid @PathVariable UUID accountId
     ) {
-        try {
-            // Lógica para processar as transações usando o accountId e transactionRequest
-
-            return ResponseEntity.status(HttpStatus.OK).body("test");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while processing transactions.");
+        Optional<AccountDto> accountDto = accountService.getAccountDetailsById(accountId);
+        if(accountDto.isEmpty()){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(accountDto);
         }
+
+        return ResponseEntity.status(HttpStatus.OK).body(accountDto);
     }
 }

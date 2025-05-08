@@ -1,5 +1,6 @@
 package com.marcelohofart.bank_api.models;
 
+import com.marcelohofart.bank_api.enums.TransactionType;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -9,6 +10,13 @@ import java.util.UUID;
 @Entity
 @Table(name = "Transfers")
 public class Transfer implements Serializable {
+    public Transfer(BigDecimal amount, String description, Account originAccount, Account destinationAccount) {
+        this.amount = amount;
+        this.description = description;
+        this.originAccount = originAccount;
+        this.destinationAccount = destinationAccount;
+        this.date = LocalDateTime.now();
+    }
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -16,6 +24,8 @@ public class Transfer implements Serializable {
     private UUID id;
     @Column(nullable = false)
     private BigDecimal amount;
+    @Column(nullable = true)
+    private String description;
 
     @Column(nullable = false)
     private LocalDateTime date = LocalDateTime.now();
