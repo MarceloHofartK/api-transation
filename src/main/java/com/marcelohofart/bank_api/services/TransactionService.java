@@ -33,7 +33,7 @@ public class TransactionService {
                 .orElseThrow(() -> new AccountNotFoundException("Conta não encontrada"));
 
         for(TransactionRequest transactionRequest : transactionRequestList) {
-            transactionRequest.validate(); // serve para validar a transação, caso um dado esteja errado gera exception
+            transactionRequest.validate();
 
             BigDecimal balanceBefore = account.getBalance();
             account.applyTransaction(TransactionType.fromString(transactionRequest.transactionType),

@@ -91,7 +91,6 @@ public class TransactionServiceTest {
 
         transactionService.processTransactions(accountId, List.of(credit, debit));
 
-        // 100 inicial + 200 - 50 = 250
         assertEquals(BigDecimal.valueOf(250), account.getBalance());
         verify(transactionRepository, times(2)).save(any(Transaction.class)); // Verifica se as duas transações foram salvas
     }
@@ -111,7 +110,6 @@ public class TransactionServiceTest {
 
         when(accountRepository.findByIdWithLock(accountId)).thenReturn(Optional.of(account));
 
-        // 100 inicial + 200 - 400 = -100 (InsufficientBalanceException)
         assertThrows(InsufficientBalanceException.class, () ->
                 transactionService.processTransactions(accountId, List.of(credit, debit))
         );

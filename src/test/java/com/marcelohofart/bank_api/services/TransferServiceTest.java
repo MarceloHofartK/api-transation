@@ -63,10 +63,9 @@ public class TransferServiceTest {
 
         transferService.processTransferBetweenAccounts(transferRequest);
 
-        // Verifica se o saldo foi alterado corretamente nas duas contas
-        assertEquals(BigDecimal.valueOf(80), fromAccount.getBalance()); // Saldo da conta de origem após o débito
-        assertEquals(BigDecimal.valueOf(70), toAccount.getBalance()); // Saldo da conta de destino após o crédito
-        verify(transferRepository).save(any(Transfer.class)); // Verifica se o objeto Transfer foi salvo
+        assertEquals(BigDecimal.valueOf(80), fromAccount.getBalance());
+        assertEquals(BigDecimal.valueOf(70), toAccount.getBalance());
+        verify(transferRepository).save(any(Transfer.class));
     }
 
     @Test
@@ -77,7 +76,7 @@ public class TransferServiceTest {
         assertThrows(AccountNotFoundException.class, () ->
                 transferService.processTransferBetweenAccounts(transferRequest)
         );
-        verify(transferRepository, never()).save(any()); // Não deve salvar nenhuma transferência
+        verify(transferRepository, never()).save(any());
     }
 
     @Test
@@ -89,24 +88,24 @@ public class TransferServiceTest {
         assertThrows(AccountNotFoundException.class, () ->
                 transferService.processTransferBetweenAccounts(transferRequest)
         );
-        verify(transferRepository, never()).save(any()); // Não deve salvar nenhuma transferência
+        verify(transferRepository, never()).save(any());
     }
 
     @Test
     void testProcessTransfer_SameAccountTransfer() {
         // Cenário: tentativa de transferir para a mesma conta
-        transferRequest.toAccountId = fromAccountId; // Definindo o mesmo ID para origem e destino
+        transferRequest.toAccountId = fromAccountId;
 
         transferService.processTransferBetweenAccounts(transferRequest);
 
-        verify(accountRepository, never()).findByIdWithLock(any()); // Não deve fazer nenhuma operação de busca
-        verify(transferRepository, never()).save(any()); // Não deve salvar nenhuma transferência
+        verify(accountRepository, never()).findByIdWithLock(any());
+        verify(transferRepository, never()).save(any());
     }
 
     @Test
     void testProcessTransfer_InsufficientBalance() {
         // Cenário: saldo insuficiente na conta de origem
-        transferRequest.amount = BigDecimal.valueOf(200); // Tentando transferir mais do que o saldo
+        transferRequest.amount = BigDecimal.valueOf(200);
 
         when(accountRepository.findByIdWithLock(fromAccountId)).thenReturn(Optional.of(fromAccount));
         when(accountRepository.findByIdWithLock(toAccountId)).thenReturn(Optional.of(toAccount));
@@ -114,6 +113,6 @@ public class TransferServiceTest {
         assertThrows(InsufficientBalanceException.class, () ->
                 transferService.processTransferBetweenAccounts(transferRequest)
         );
-        verify(transferRepository, never()).save(any()); // Não deve salvar nenhuma transferência
+        verify(transferRepository, never()).save(any());
     }
 }

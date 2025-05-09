@@ -49,9 +49,9 @@ public class AccountControllerTest {
 
         ResponseEntity<String> response = accountController.createTransactionsInAccount(accountId, transactions);
 
-        assertEquals(HttpStatus.CREATED, response.getStatusCode()); // Verifica que a resposta tem o status CREATED
-        assertEquals("Transações realizadas com sucesso!", response.getBody()); // Verifica a mensagem da resposta
-        verify(transactionService).processTransactions(accountId, transactions); // Verifica que o serviço de transações foi chamado
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals("Transações realizadas com sucesso!", response.getBody());
+        verify(transactionService).processTransactions(accountId, transactions);
     }
 
     @Test
@@ -63,9 +63,9 @@ public class AccountControllerTest {
 
         ResponseEntity<String> response = accountController.transferBetweenAccounts(transferRequest);
 
-        assertEquals(HttpStatus.CREATED, response.getStatusCode()); // Verifica que a resposta tem o status CREATED
-        assertEquals("Transferência realizada com sucesso!", response.getBody()); // Verifica a mensagem da resposta
-        verify(transferService).processTransferBetweenAccounts(transferRequest); // Verifica que o serviço de transferência foi chamado
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals("Transferência realizada com sucesso!", response.getBody());
+        verify(transferService).processTransferBetweenAccounts(transferRequest);
     }
 
     @Test
@@ -82,8 +82,8 @@ public class AccountControllerTest {
 
         ResponseEntity<Page<AccountDto>> response = accountController.getAllAccounts(page, size);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode()); // Verifica que a resposta tem o status OK
-        assertEquals(accountPage, response.getBody()); // Verifica o conteúdo da resposta
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(accountPage, response.getBody());
     }
 
     @Test
@@ -96,8 +96,8 @@ public class AccountControllerTest {
 
         ResponseEntity<Optional<AccountDto>> response = accountController.getAccountDetails(accountId);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode()); // Verifica que a resposta tem o status OK
-        assertTrue(response.getBody().isPresent()); // Verifica que o corpo da resposta contém o DTO da conta
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertTrue(response.getBody().isPresent());
     }
 
     @Test
@@ -109,8 +109,8 @@ public class AccountControllerTest {
 
         ResponseEntity<Optional<AccountDto>> response = accountController.getAccountDetails(accountId);
 
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode()); // Verifica que a resposta tem o status BAD_REQUEST
-        assertTrue(response.getBody().isEmpty()); // Verifica que o corpo da resposta está vazio
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertTrue(response.getBody().isEmpty());
     }
 
     @Test
