@@ -92,6 +92,9 @@ esse comando irá iniciar a aplicação com o perfil 'dev', com esse perfil ativ
 - Exemplo: `Bank`, `Account`, `Agency`, etc.
 * Essa configuração está na classe **.../com.marcelohofart.bank_api/configs/DatabaseSeeder.java** 
 
+### 4. Abrir o swagger no navegador
+Após iniciar a aplicação, será gerado uma URL do swagger-ui que irá direcionar para a documentação dos endpoints.
+- URL: `http://localhost:8080/swagger-ui.html`
 
 ## 🧪 Como Realizar Testes Unitários
 Para realizar todos os testes unitários da aplicação, na raiz do projeto utilize o comando Maven:
