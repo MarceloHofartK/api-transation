@@ -126,7 +126,7 @@ public class AccountController {
     ) {
         Optional<AccountDto> accountDto = accountService.getAccountDetailsById(accountId);
         if(accountDto.isEmpty()){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(accountDto);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(accountDto);

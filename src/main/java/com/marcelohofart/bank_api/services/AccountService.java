@@ -19,6 +19,7 @@ public class AccountService {
     public Optional<AccountDto> getAccountDetailsById(UUID accountId){
         return accountRepository.findById(accountId)
                 .map(account -> new AccountDto(account.getId(), account.getNumber(), account.getBalance()));
+
     }
     public Page<AccountDto> getAllAccounts(Pageable pageable){
         return accountRepository.findAll(pageable)

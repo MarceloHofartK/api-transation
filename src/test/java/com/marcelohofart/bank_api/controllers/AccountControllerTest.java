@@ -109,8 +109,7 @@ public class AccountControllerTest {
 
         ResponseEntity<Optional<AccountDto>> response = accountController.getAccountDetails(accountId);
 
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertTrue(response.getBody().isEmpty());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
     @Test
