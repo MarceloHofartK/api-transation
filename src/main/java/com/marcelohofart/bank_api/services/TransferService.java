@@ -28,10 +28,10 @@ public class TransferService {
 
     @Transactional
     public void processTransferBetweenAccounts(TransferRequest transferRequest){
-        if(transferRequest.toAccountId == transferRequest.fromAccountId){ // se está tentando mandar dinheiro pra mesma conta
+        if(transferRequest.toAccountId == transferRequest.fromAccountId){
             return;
         }
-        transferRequest.validate(); // serve para validar a transferencia, caso um dado esteja errado gera exception
+        transferRequest.validate();
 
         Account fromAccount = accountRepository.findByIdWithLock(transferRequest.fromAccountId)
                 .orElseThrow(() -> new AccountNotFoundException("Conta de origem não encontrada"));
@@ -39,10 +39,10 @@ public class TransferService {
         Account toAccount = accountRepository.findByIdWithLock(transferRequest.toAccountId)
                 .orElseThrow(() -> new AccountNotFoundException("Conta de destino não encontrada"));
 
-        fromAccount.applyTransaction(TransactionType.DEBIT, transferRequest.amount); // retiro dinheiro da conta da pessoa q está enviando
-        toAccount.applyTransaction(TransactionType.CREDIT, transferRequest.amount); // adiciono dinheiro da conta da pessoa q está recebendo
+        fromAccount.applyTransaction(TransactionType.DEBIT, transferRequest.amount);
+        toAccount.applyTransaction(TransactionType.CREDIT, transferRequest.amount);
 
-        var transfer = new Transfer(transferRequest.amount, transferRequest.description, fromAccount, toAccount);
+        Transfer transfer = new Transfer(transferRequest.amount, transferRequest.description, fromAccount, toAccount);
         transferRepository.save(transfer);
     }
 }

@@ -11,7 +11,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "Accounts")
 public class Account implements Serializable {
-    protected Account() {
+    public Account() {
     }
     public Account(String number, BigDecimal initialBalance, Client client, Agency agency) {
         this.number = number;
@@ -67,4 +67,18 @@ public class Account implements Serializable {
             balance = balance.add(amount);
         }
     }
+
+    // Apenas para testes - não usar em produção
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
 }

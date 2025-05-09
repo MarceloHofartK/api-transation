@@ -1,6 +1,7 @@
 package com.marcelohofart.bank_api.services;
 
 import com.marcelohofart.bank_api.enums.TransactionType;
+import com.marcelohofart.bank_api.exceptions.AccountNotFoundException;
 import com.marcelohofart.bank_api.models.Account;
 import com.marcelohofart.bank_api.models.Transaction;
 import com.marcelohofart.bank_api.repositories.AccountRepository;
@@ -29,7 +30,7 @@ public class TransactionService {
         if (transactionRequestList.isEmpty()) return;
 
         Account account = accountRepository.findByIdWithLock(accountId)
-                .orElseThrow(() -> new EntityNotFoundException("Conta não encontrada"));
+                .orElseThrow(() -> new AccountNotFoundException("Conta não encontrada"));
 
         for(TransactionRequest transactionRequest : transactionRequestList) {
             transactionRequest.validate(); // serve para validar a transação, caso um dado esteja errado gera exception
@@ -40,7 +41,7 @@ public class TransactionService {
 
             BigDecimal balanceAfter = account.getBalance();
 
-            var transaction = new Transaction(TransactionType.fromString(transactionRequest.transactionType),
+            Transaction transaction = new Transaction(TransactionType.fromString(transactionRequest.transactionType),
                     transactionRequest.amount, transactionRequest.description, account,
                     balanceBefore, balanceAfter);
             transactionRepository.save(transaction);

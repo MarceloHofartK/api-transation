@@ -43,17 +43,17 @@ public class AccountController {
     private TransferService transferService;
 
     @Operation(
-            summary = "Realiza um ou mais lançamentos (crédito e débito) em uma conta específica.",
-            description = "Permite registrar várias transações de crédito ou débito para uma conta bancária."
+        summary = "Realiza um ou mais lançamentos em uma conta específica. tipos de transação aceitos -> DEBIT | CREDIT",
+        description = "Permite realizar lançamentos em uma conta bancária, como saques e depósitos. Tipos de transação permitidos: DEBIT (saque) ou CREDIT (depósito). Exemplo de saque: débito de um valor da conta. Exemplo de depósito: crédito de um valor na conta."
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Transações realizadas com sucesso!"),
-            @ApiResponse(responseCode = "400", description = "Saldo insuficiente na conta para realizar a transação."),
-            @ApiResponse(responseCode = "404", description = "Conta não encontrada")
+        @ApiResponse(responseCode = "201", description = "Transações realizadas com sucesso!"),
+        @ApiResponse(responseCode = "400", description = "Saldo insuficiente na conta para realizar a transação."),
+        @ApiResponse(responseCode = "404", description = "Conta não encontrada")
     })
     @PostMapping("/accounts/{accountId}/transactions")
     public ResponseEntity<String> createTransactionsInAccount(
-            @Parameter(description = "Identificador da conta que realizará as transações", example = "f81d4fae-7dec-11d0-a765-00a0c91e6bf6")
+            @Parameter(description = "Identificador da conta que receberá os lançamentos", example = "f81d4fae-7dec-11d0-a765-00a0c91e6bf6")
             @PathVariable UUID accountId,
             @Parameter(description = "Lista de transações a serem realizadas")
             @RequestBody List<TransactionRequest> transactionRequestList
@@ -81,12 +81,12 @@ public class AccountController {
     }
 
     @Operation(
-            summary = "Listar contas cadastradas",
-            description = "Retorna uma lista paginada de contas bancárias cadastradas no sistema."
+        summary = "Listar contas cadastradas",
+        description = "Retorna uma lista paginada de contas bancárias cadastradas no sistema."
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Lista paginada de contas retornada com sucesso"),
-            @ApiResponse(responseCode = "400", description = "Parâmetros de paginação inválidos")
+        @ApiResponse(responseCode = "200", description = "Lista paginada de contas retornada com sucesso"),
+        @ApiResponse(responseCode = "400", description = "Parâmetros de paginação inválidos")
     })
     @GetMapping("/accounts")
     public ResponseEntity<Page<AccountDto>> getAllAccounts(

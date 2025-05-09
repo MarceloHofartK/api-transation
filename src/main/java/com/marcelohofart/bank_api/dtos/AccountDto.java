@@ -17,10 +17,34 @@ public class AccountDto {
     @NotNull(message = "A quantidade é obrigatória")
     @PositiveOrZero(message = "A quantidade de dinheiro na conta não pode ser negativa")
     public BigDecimal balance;
-
+    public AccountDto() {}
     public AccountDto(UUID id, String number, BigDecimal balance){
         this.id = id;
         this.number = number;
+        this.balance = balance;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 }
